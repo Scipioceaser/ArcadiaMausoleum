@@ -14,6 +14,7 @@ public class TextLerp : MonoBehaviour
     void Awake()
     {
         text = GetComponent<TMP_Text>();
+        text.color = new Color(text.color.r, text.color.g, text.color.b, 0f);
     }
 
     private void Start()
@@ -33,7 +34,6 @@ public class TextLerp : MonoBehaviour
                 yield return new WaitForSeconds(0.05f);
                 continue;
             }
-            
             for (int j = 0; j < text.textInfo.wordCount; j++)
             {
                 TMP_WordInfo word = text.textInfo.wordInfo[j];
@@ -74,7 +74,7 @@ public class TextLerp : MonoBehaviour
                             textMeshPro.autoSizeTextContainer = true;
                             textMeshPro.rectTransform.pivot = new Vector2(0.5f, 0.5f);
                             textMeshPro.alignment = TextAlignmentOptions.Bottom;
-                            textMeshPro.fontSize = 36;
+                            textMeshPro.fontSize = GetComponent<TextMeshProUGUI>().fontSize;
                             textMeshPro.enableKerning = false;
                             textMeshPro.SetText("" + c.character);
                         }
@@ -102,7 +102,7 @@ public class TextLerp : MonoBehaviour
                             textMeshPro.autoSizeTextContainer = true;
                             textMeshPro.rectTransform.pivot = new Vector2(0.5f, 0.5f);
                             textMeshPro.alignment = TextAlignmentOptions.Bottom;
-                            textMeshPro.fontSize = 36;
+                            textMeshPro.fontSize = GetComponent<TextMeshProUGUI>().fontSize;
                             textMeshPro.enableKerning = false;
                             textMeshPro.SetText("" + c.character);
                         }
@@ -130,7 +130,7 @@ public class TextLerp : MonoBehaviour
                             textMeshPro.autoSizeTextContainer = true;
                             textMeshPro.rectTransform.pivot = new Vector2(0.5f, 0.5f);
                             textMeshPro.alignment = TextAlignmentOptions.Bottom;
-                            textMeshPro.fontSize = 36;
+                            textMeshPro.fontSize = GetComponent<TextMeshProUGUI>().fontSize;
                             textMeshPro.enableKerning = false;
                             textMeshPro.SetText("" + c.character);
                         }
@@ -176,11 +176,11 @@ public class TextLerp : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Space)) StartCoroutine(LerpText(Vector3.up * 75f, 1.0f, false, true, false));
-        if (Input.GetKeyUp(KeyCode.LeftAlt)) StartCoroutine(LerpText((Vector3.up + Vector3.left) * 75f, 1.0f, true, true, false));
+        //if (Input.GetKeyUp(KeyCode.Space)) StartCoroutine(LerpText(Vector3.up * 75f, 1.0f, false, true, false));
+        //if (Input.GetKeyUp(KeyCode.LeftAlt)) StartCoroutine(LerpText((Vector3.up + Vector3.left) * 75f, 1.0f, true, true, false));
     }
 
-    private IEnumerator LerpText(Vector3 offset, float time, bool fade, bool delayWords, bool delayCharacters)
+    public IEnumerator LerpText(Vector3 offset, float time, bool fade, bool delayWords, bool delayCharacters)
     {
         for (int i = 0; i < transform.childCount; i++)
         {
@@ -191,7 +191,7 @@ public class TextLerp : MonoBehaviour
         }
     }
 
-    private IEnumerator LerpWord(int wordIndex, Vector3 offset, float time, bool fade, bool delayCharacters)
+    public IEnumerator LerpWord(int wordIndex, Vector3 offset, float time, bool fade, bool delayCharacters)
     {
         Transform word = transform.GetChild(wordIndex);
 
@@ -204,7 +204,7 @@ public class TextLerp : MonoBehaviour
         }
     }
 
-    private IEnumerator LerpCharacter(int wordIndex, int characterIndex, Vector3 offset, float time, bool fade)
+    public IEnumerator LerpCharacter(int wordIndex, int characterIndex, Vector3 offset, float time, bool fade)
     {
         Transform character = transform.GetChild(wordIndex).GetChild(characterIndex);
         TextMeshProUGUI textMeshPro = character.gameObject.GetComponent<TextMeshProUGUI>();
